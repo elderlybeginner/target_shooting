@@ -1,4 +1,4 @@
-date: 2019-11-06
+date: 2019-11-06  
 tags: [Python, shooting, sport shooting, Cp, Cpk, process capability index, precision, accuracy, measuring]
 
 # Cp and Cpk for Target Shooters
