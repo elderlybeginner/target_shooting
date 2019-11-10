@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 def calibrate():
 	'''Sets up ruller for measurements. Default value is 10 cm diameter.
 	Two points should be marked as distance input.'''
-	return(10)
+	return 10
 
 
 def get_holes():
@@ -68,10 +68,9 @@ def show_results(holes, centroid):
 	plt.scatter(*holes_ziped)
 	plt.scatter(centroid[0], centroid[1], marker='o', c='r', edgecolor='k')
 	plt.axis('scaled')
-	plt.xlim(-20, 20)
-	plt.ylim(-20, 20)
+	plt.xlim(-10, 10)
+	plt.ylim(-10, 10)
 	plt.show()
-	return
 
 
 def show_results_interpretation():
