@@ -4,6 +4,7 @@
 
 import math
 import matplotlib.pyplot as plt
+import random
 
 
 def calibrate():
@@ -12,10 +13,12 @@ def calibrate():
 	return(10)
 
 
-def get_holes():
+def get_holes(amount):
 	'''Holes are marked. X, Y position of each hole is read.'''
-	pass
-
+	holes = []
+	for h in range(amount):
+		holes.append([random.randint(-5, 5), random.randint(-5, 5)])
+	return holes
 
 def calculate_centroid(holes):
 	'''Calculating centroid (mean holes position: x, y) based on given points.'''
@@ -78,11 +81,9 @@ def show_results_interpretation():
 	pass
 
 
-holes = [[3, 4], [5, 8], [6, 7], [-3, 8], [-1, 0], [-2, 6], [2, 4]]
-tolerance = 5  # acceptable tolerance of shooting
-
-calibrate()
-get_holes()
+holes_amount = 10
+tolerance = calibrate() # acceptable tolerance of shooting
+holes = get_holes(holes_amount) 
 centroid = list(calculate_centroid(holes))
 print(f'centroid: x = {centroid[0]:.2f}; y = {centroid[1]:.2f}')
 mean = calculate_mean(holes)
