@@ -3,6 +3,7 @@
 
 
 import math
+import matplotlib.pyplot as plt
 
 
 def calibrate():
@@ -13,6 +14,7 @@ def calibrate():
 
 def get_holes():
 	'''Holes are marked. X, Y position of each hole is read.'''
+	pass
 
 
 def calculate_centroid(holes):
@@ -48,35 +50,49 @@ def calculate_cp(tolerance, sd):
 	indexes interpretation.'''
 	return tolerance / (6 * sd)
 
+
 def calculate_cpk(tolerance, sd, centroid):
 	usl = tolerance / 2
 	lsl = -(tolerance / 2)
-	return min((usl - abs(complex(centroid[0], centroid[1])) / (3 * sd), abs(complex(centroid[0], centroid [1])) - lsl / (3 * sd)))
+	return min((usl - abs(complex(centroid[0], centroid[1])) / (3 * sd), abs(complex(centroid[0], centroid[1])) - lsl / (3 * sd)))
 
 
-def show_results():
-	pass
+def show_results(holes, centroid):
+	circle = plt.Circle((0, 0), 1, color='k', fill=0)
+	circle1 = plt.Circle((0, 0), 5, color='0.5', fill=0)
+	circle2 = plt.Circle((0, 0), 10, color='k', fill=0)
+	plt.gcf().gca().add_artist(circle)
+	plt.gcf().gca().add_artist(circle1)
+	plt.gcf().gca().add_artist(circle2)
+	holes_ziped = zip(*holes)
+	plt.scatter(*holes_ziped)
+	plt.scatter(centroid[0], centroid[1], marker='o', c='r', edgecolor='k')
+	plt.axis('scaled')
+	plt.xlim(-20, 20)
+	plt.ylim(-20, 20)
+	plt.show()
+	return
 
 
 def show_results_interpretation():
 	pass
 
 
+holes = [[3, 4], [5, 8], [6, 7], [-3, 8], [-1, 0], [-2, 6], [2, 4]]
+tolerance = 5  # acceptable tolerance of shooting
+
 calibrate()
 get_holes()
-holes = [[3, 4], [5, 8], [6, 7], [-3, 8], [-1, 0], [-2, 6], [2, 4]]
-
 centroid = list(calculate_centroid(holes))
-print(f'x = {centroid[0]:.2f}; y = {centroid[1]:.2f}')
+print(f'centroid: x = {centroid[0]:.2f}; y = {centroid[1]:.2f}')
 mean = calculate_mean(holes)
 print('mean', mean)
 sd = calculate_sd(holes, centroid)
-print(sd)
-tolerance = 2  # acceptable tolerance of shooting
+print('sd = ', sd)
 cp = calculate_cp(tolerance, sd)
 print("Cp = ", cp)
 cpk = calculate_cpk(tolerance, sd, centroid)
 print("Cpk = ", cpk)
 
-show_results()
+show_results(holes, centroid)
 show_results_interpretation()
