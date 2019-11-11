@@ -27,7 +27,7 @@ TODO
 ### Calculating centroid
 
 Measurement is to be set as the distance from the center to default place.  
-Then we calculate holes position as a table of tables: 
+Then we calculate holes position as a list of lists: 
 
 h1 = [x, y], h2 = [x, y], ... hn = [x,y]  
 h2 = ...  
@@ -47,7 +47,38 @@ centroid = [sum(x) / len(holes), sum(y) / len(holes)]
 
 ### Calculating Cp and Cpk
 
-TODO
+*Cp:*
+
+(USL - LSL) / (6 * sigma).  
+USL is Upper Specification Limit.  
+LSL is Lower Specification Limit.  
+(USL - LSL) is range of accepted values. Here it is equal to tolerance  
+Six Sigma means six standard deviations.  
+
+(math equitation should be here)
+
+*Cpk:*
+
+(math equitation instead of code here)
+
+```python
+def calculate_cpk(tolerance, sd, centroid):
+    usl = tolerance / 2 
+    lsl = -(tolerance / 2)
+    return min((usl - abs(complex(centroid[0], centroid[1])) / (3 * sd), abs(complex(centroid[0], centroid[1])) - lsl / (3 * sd)))
+```
+
+*6 * sigma:*
+
+I made approximation that sigma is standard deviation, thus it is calculated as:
+(math equitation will be here instead of code): 
+
+```python
+total = 0
+for i in holes:
+	total += math.pow((abs(complex(i[0] - centroid[0], i[1] - centroid[1]))), 2)
+6sigma =  math.sqrt(total / len(holes))
+```	
 
 ### Visualization
 
