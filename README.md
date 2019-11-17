@@ -77,7 +77,7 @@ I made approximation that sigma is standard deviation, thus it is calculated as:
 total = 0
 for i in holes:
 	total += math.pow((abs(complex(i[0] - centroid[0], i[1] - centroid[1]))), 2)
-6sigma =  math.sqrt(total / len(holes))
+sixsigma =  math.sqrt(total / len(holes))
 ```	
 
 ### Visualization
