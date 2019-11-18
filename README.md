@@ -1,9 +1,9 @@
-date: 2019-11-06  
+date: 2019-11-06, last modification 2019-11-18  
 tags: [Python, shooting, sport shooting, Cp, Cpk, process capability index, precision, accuracy, measuring]
 
 # Cp and Cpk for Target Shooters
 
-When shooting to target there are two main indicators how good is your shooting:
+When shooting to target there are two main indicators of how good is your shooting:
 
 1. Precision - the ability to hit the same place over and over. This gives you shot dispersion which I am going to measure with	 Cp index
 
@@ -18,7 +18,7 @@ Source: public domain
 ### The Project
 
 The project is to calculate precision and accuracy based on bullet holes on target.  
-You are scanning or take photo of a target, mark holes (how about primary hole recognition?) and program calculates Cp and Cpk for you. **Centroid** (average position of all the holes) is shown on the target.
+You are scanning or a take photo of a target, mark holes (how about primary hole recognition?) and the program calculates Cp and Cpk for you. **Centroid** (average position of all the holes) is shown on the target.
 
 ### Cp and Cpk
 
@@ -26,7 +26,7 @@ TODO
 
 ### Calculating centroid
 
-Measurement is to be set as the distance from the center to default place.  
+Measurement is to be set as the distance from the center to the default place.  
 Then we calculate holes position as a list of lists: 
 
 h1 = [x, y], h2 = [x, y], ... hn = [x,y]  
@@ -52,7 +52,7 @@ centroid = [sum(x) / len(holes), sum(y) / len(holes)]
 (USL - LSL) / (6 * sigma).  
 USL is Upper Specification Limit.  
 LSL is Lower Specification Limit.  
-(USL - LSL) is range of accepted values. Here it is equal to tolerance  
+(USL - LSL) is a range of accepted values. Here it is equal to the tolerance.  
 Six Sigma means six standard deviations.  
 
 (math equitation should be here)
@@ -82,11 +82,42 @@ for i in holes:
 
 ### Visualization
 
-Centroid is marked on target. Cp and Cpk are shown.
+The window is divided on two parts:
+
+1. Setup / Data / Manage
+
+![Program window](./img/window.png)
+
+Setup is build of:
+
+- calibrate: button for target calibration (diameter of the target)
+- scan: imports scanned target (missed on the drawing)
+- find holes: tries to mark holes automatically 
+- fix holes: you can fix and enter holes by hand
+- tolerance: dispersion you are trying to reach
+- add text: any notes you would like to add
+- date
+
+Data is build of:
+
+- Cp: which gives info about your precision
+- Cpk: which gives info about your accuracy
+- Centroid X, Y: coordinates where is the middle of your shooting
+- Number of holes
+- Probability: based on standard deviation, probability that you shoot withing the tolerance
+
+Stats are build of:
+
+- save result
+- load result
+- stats: manage all your previous results 
+
+2. Target or Cp/Cpk charts (flipped by upper tabs)
+
+In this window, you can flip between target view and history results.
 
 ### Data gathering
 
-Cp and Cpk are gather and put on chart to show target shooting progress. 
+Cp and Cpk are gathered and put on the chart to show target shooting progress. 
 
-I am newbie in shooting, dispersion analysis and programming. Feel free to correct my mistakes and give some constructive tips.
-
+I am a newbie in shooting, dispersion analysis and programming. Feel free to correct my mistakes and give some constructive tips.

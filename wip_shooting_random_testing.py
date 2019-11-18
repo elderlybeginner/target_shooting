@@ -69,7 +69,7 @@ def show_results(holes, centroid):
 	plt.gcf().gca().add_artist(circle2)
 	holes_ziped = zip(*holes)
 	plt.scatter(*holes_ziped)
-	plt.scatter(centroid[0], centroid[1], marker='o', c='r', edgecolor='k')
+	plt.scatter(centroid[0], centroid[1], marker='+', c='r', edgecolor='k')
 	plt.axis('scaled')
 	plt.xlim(-10, 10)
 	plt.ylim(-10, 10)
