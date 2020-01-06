@@ -81,14 +81,14 @@ def show_results_interpretation():
 	pass
 
 
-acceptable = 8  # minimum target accepted (for probability)
+acceptable = 5  # minimum target accepted (for probability)
 holes_amount = 10
 distance = calibrate()  # can be used for finding holes X, Y
 holes = get_holes(holes_amount)
 centroid = calculate_centroid(holes)
 print('')
 print('*' * 55)
-print(f'Centroid: x = {centroid[0]:.2f}; y = {centroid[1]:.2f}')
+print(f'Centroid: x = {centroid[0]:.2f}; y = {centroid[1]:.2f} (distance from center)')
 mean = calculate_mean(holes)
 print(f'Average points per shot: {10 - mean:.1f}')
 sd = calculate_sd(holes, centroid)
