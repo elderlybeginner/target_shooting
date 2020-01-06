@@ -20,6 +20,7 @@ def get_holes(amount):
 		holes.append([random.randint(-2, 2), random.randint(-2, 2)])
 	return holes
 
+
 def calculate_centroid(holes):
 	'''Calculating centroid (mean holes position: x, y) based on given points.'''
 	x, y = zip(*holes)
@@ -57,7 +58,7 @@ def calculate_probability(acceptable, mean, sd):
 	prob1 = math.erf((go_for - mean) / (math.sqrt(2) * sd))
 	prob2 = math.erf((go_for + mean) / (math.sqrt(2) * sd))
 	prob = (prob1 + prob2) / 2
-	return prob 
+	return prob
 
 
 def show_results(holes, centroid):
@@ -80,10 +81,10 @@ def show_results_interpretation():
 	pass
 
 
-acceptable = 7.5 # minimum target accepted (for probability)
+acceptable = 8  # minimum target accepted (for probability)
 holes_amount = 1000
-distance = calibrate() # can be used for finding holes X, Y 
-holes = get_holes(holes_amount) 
+distance = calibrate()  # can be used for finding holes X, Y
+holes = get_holes(holes_amount)
 centroid = calculate_centroid(holes)
 print(f'centroid: x = {centroid[0]:.2f}; y = {centroid[1]:.2f}')
 mean = calculate_mean(holes)
@@ -91,6 +92,6 @@ print('mean', mean)
 sd = calculate_sd(holes, centroid)
 print('sd = ', sd)
 probability = calculate_probability(acceptable, mean, sd)
-print("Probability = ", f'{probability * 100:.2f}%')
+print('Probability that you hit', acceptable, 'or more in your next shoot: ', f'{probability * 100:.2f}%')
 
 show_results(holes, centroid)
