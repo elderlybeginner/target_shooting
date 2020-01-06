@@ -17,7 +17,7 @@ def get_holes(amount):
 	'''Holes are marked. X, Y position of each hole is read.'''
 	holes = []
 	for h in range(amount):
-		holes.append([random.randint(-2, 2), random.randint(-2, 2)])
+		holes.append([random.randint(-1, 2), random.randint(-2, 5)])
 	return holes
 
 
@@ -82,16 +82,19 @@ def show_results_interpretation():
 
 
 acceptable = 8  # minimum target accepted (for probability)
-holes_amount = 1000
+holes_amount = 10
 distance = calibrate()  # can be used for finding holes X, Y
 holes = get_holes(holes_amount)
 centroid = calculate_centroid(holes)
-print(f'centroid: x = {centroid[0]:.2f}; y = {centroid[1]:.2f}')
+print('')
+print('*' * 55)
+print(f'Centroid: x = {centroid[0]:.2f}; y = {centroid[1]:.2f}')
 mean = calculate_mean(holes)
-print('mean', mean)
+print(f'Average points per shot: {10 - mean:.1f}')
 sd = calculate_sd(holes, centroid)
-print('sd = ', sd)
+print(f'Standard deviation: {sd:.2f}')
 probability = calculate_probability(acceptable, mean, sd)
-print('Probability that you hit', acceptable, 'or more in your next shoot: ', f'{probability * 100:.2f}%')
+print('Probability hitting', acceptable, 'or more in the next shoot:', f'{probability * 100:.2f}%')
+print('*' * 55, '\n')
 
 show_results(holes, centroid)
