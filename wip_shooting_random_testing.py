@@ -17,13 +17,13 @@ def get_holes(amount):
 	'''Holes are marked. X, Y position of each hole is read.'''
 	holes = []
 	for h in range(amount):
-		holes.append([random.randint(-5, 5), random.randint(-5, 5)])
+		holes.append([random.randint(-2, 2), random.randint(-2, 2)])
 	return holes
 
 def calculate_centroid(holes):
 	'''Calculating centroid (mean holes position: x, y) based on given points.'''
 	x, y = zip(*holes)
-	return (sum(x) / len(holes), sum(y) / len(holes))
+	return sum(x) / len(holes), sum(y) / len(holes)
 
 
 def calculate_mean(holes):
@@ -42,22 +42,22 @@ def calculate_sd(holes, centroid):
 	return math.sqrt(total / len(holes))
 
 
-def calculate_cp(tolerance, sd):
-	'''Charts are the best to explain cp index. It's calculated as
-	(USL - LSL) / (6*sigma).
-	USL is Upper Specification Limit.
-	LSL is Lower Specification Limit.
-	(USL - LSL) is range of accepted values. Here it is equal to tolerance
-	Six Sigma means six standard deviations.
-	Sounds complicated, gets simple when you look for charts with
-	indexes interpretation.'''
-	return tolerance / (6 * sd)
-
-
-def calculate_cpk(tolerance, sd, centroid):
-	usl = tolerance / 2
-	lsl = -(tolerance / 2)
-	return min((usl - abs(complex(centroid[0], centroid[1])) / (3 * sd), abs(complex(centroid[0], centroid[1])) - lsl / (3 * sd)))
+def calculate_probability(acceptable, mean, sd):
+	'''Equitation for folded (half) normal distribution is different
+	then for normal distribution. Probability calculation uses
+	error function - math.erf() - to calculate probability.
+	I still wonder if it should be calculated based on
+	imaginary folded normal distribution. Providing the time
+	it took me to go thru this statistic basics I think I would
+	never finished it if I try to find solution with imagiary staff.
+	Equitation for cumulative distribution (CDF) I have found on:
+	https://arxiv.org/pdf/1402.3559.pdf and it is also on:
+	https://infogalactic.com/info/Folded_normal_distribution'''
+	go_for = 10 - acceptable
+	prob1 = math.erf((go_for - mean) / (math.sqrt(2) * sd))
+	prob2 = math.erf((go_for + mean) / (math.sqrt(2) * sd))
+	prob = (prob1 + prob2) / 2
+	return prob 
 
 
 def show_results(holes, centroid):
@@ -80,19 +80,17 @@ def show_results_interpretation():
 	pass
 
 
-holes_amount = 10
-tolerance = calibrate() # acceptable tolerance of shooting
+acceptable = 7.5 # minimum target accepted (for probability)
+holes_amount = 1000
+distance = calibrate() # can be used for finding holes X, Y 
 holes = get_holes(holes_amount) 
-centroid = list(calculate_centroid(holes))
+centroid = calculate_centroid(holes)
 print(f'centroid: x = {centroid[0]:.2f}; y = {centroid[1]:.2f}')
 mean = calculate_mean(holes)
 print('mean', mean)
 sd = calculate_sd(holes, centroid)
 print('sd = ', sd)
-cp = calculate_cp(tolerance, sd)
-print("Cp = ", cp)
-cpk = calculate_cpk(tolerance, sd, centroid)
-print("Cpk = ", cpk)
+probability = calculate_probability(acceptable, mean, sd)
+print("Probability = ", f'{probability * 100:.2f}%')
 
 show_results(holes, centroid)
-show_results_interpretation()
